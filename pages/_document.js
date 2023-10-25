@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
@@ -26,6 +27,9 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+
+        {/* <!-- JS Implementing Plugins --> */}
+        <Script src="./assets/vendor/preline/dist/preline.js"></Script>
       </body>
     </Html>
   );
