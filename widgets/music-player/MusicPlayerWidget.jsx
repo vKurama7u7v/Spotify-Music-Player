@@ -55,8 +55,8 @@ function MusicPlayerWidget() {
             <IconMediaPlayer />
 
             <div className="info">
-              <h3>Coldplay ❤️</h3>
-              <p>49 songs</p>
+              <h3>Liily ❤️</h3>
+              <p>6 songs</p>
             </div>
 
             <button
