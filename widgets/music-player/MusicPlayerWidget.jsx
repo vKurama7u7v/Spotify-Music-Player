@@ -1,6 +1,89 @@
 import React, { useEffect, useState } from "react";
 
-function MusicPlayerWidget() {
+function MusicPlayerWidget(props) {
+  const {
+    currentSong,
+    setCurrentSong,
+    isPlaying,
+    setIsPlaying,
+    audioRef,
+    songInfo,
+    setSongInfo,
+    songs,
+    setSongs,
+    onLoadedMetadata,
+    onTimeUpdate,
+    onEnded,
+    ref,
+    src,
+  } = props;
+
+  // Event handlers
+  const playSongHandler = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(!isPlaying);
+    } else {
+      audioRef.current.play();
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const togglePlayPauseIcon = () => {
+    if (isPlaying) {
+      return faPause;
+    } else {
+      return faPlay;
+    }
+  };
+
+  const getTime = (time) => {
+    let minute = Math.floor(time / 60);
+    let second = ("0" + Math.floor(time % 60)).slice(-2);
+    return `${minute}:${second}`;
+  };
+
+  const dragHandler = (e) => {
+    audioRef.current.currentTime = e.target.value;
+    setSongInfo({ ...songInfo, currentTime: e.target.value });
+  };
+
+  const skipTrackHandler = async (direction) => {
+    let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+    if (direction === "skip-forward") {
+      await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+      activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
+    } else if (direction === "skip-back") {
+      if ((currentIndex - 1) % songs.length === -1) {
+        await setCurrentSong(songs[songs.length - 1]);
+        activeLibraryHandler(songs[songs.length - 1]);
+      } else {
+        await setCurrentSong(songs[(currentIndex - 1) % songs.length]);
+        activeLibraryHandler(songs[(currentIndex - 1) % songs.length]);
+      }
+    }
+    if (isPlaying) {
+      audioRef.current.play();
+    }
+  };
+
+  const activeLibraryHandler = (newSong) => {
+    const newSongs = songs.map((song) => {
+      if (song.id === newSong.id) {
+        return {
+          ...song,
+          active: true,
+        };
+      } else {
+        return {
+          ...song,
+          active: false,
+        };
+      }
+    });
+    setSongs(newSongs);
+  };
+  /*
   // use Audio constructor to create HTMLAudioElement
   const song_url =
     "https://p.scdn.co/mp3-preview/b4eb1d7db30834c8d536ad7b608b23fbc14b5b4b?cid=34a9e4e696a64f1fa9e86ae2c33b4604";
@@ -46,6 +129,7 @@ function MusicPlayerWidget() {
   const onEnded = () => {
     console.log("finished playing");
   };
+  */
 
   return (
     <>
@@ -62,15 +146,16 @@ function MusicPlayerWidget() {
             <button
               className="music-player-component--button"
               onClick={() => {
-                onSetPlaying();
-                onSetSound();
+                playSongHandler();
               }}
             >
               <div className="left">
-                <i class={isPlaying ? "bx bx-pause" : "bx bx-play"}></i>
+                {/* <i class={isPlaying ? "bx bx-pause" : "bx bx-play"}></i> */}
+                <i class={"bx bx-play"}></i>
               </div>
 
-              <div className="right">{isPlaying ? "Pause" : "Play"}</div>
+              {/* <div className="right">{isPlaying ? "Pause" : "Play"}</div> */}
+              <div className="right">{"Play"}</div>
             </button>
           </div>
           <div className="music-player-component--right">
