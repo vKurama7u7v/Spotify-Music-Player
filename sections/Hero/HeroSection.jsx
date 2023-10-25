@@ -36,8 +36,8 @@ function HeroSection() {
           {/* <!-- Title --> */}
           <div class="mt-5 max-w-2xl text-center mx-auto">
             <h1 class="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl ">
-              Let´s Build
-              <span class="bg-clip-text bg-gradient-to-tl from-blue-600 to-violet-600 text-transparent">
+              Let´s Listen
+              <span class="bg-clip-text bg-gradient-to-tl text-green-500">
                 Together
               </span>
             </h1>
