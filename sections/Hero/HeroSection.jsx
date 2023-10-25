@@ -55,7 +55,7 @@ function HeroSection() {
           {/* <!-- Buttons --> */}
           <div class="mt-8 grid gap-3 w-full sm:inline-flex sm:justify-center">
             <a
-              class="inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white py-3 px-4 "
+              class="inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl bg-green-500 hover:bg-green-400 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-white py-3 px-4 transition duration-300 ease-in-out"
               href="#"
             >
               Get started
