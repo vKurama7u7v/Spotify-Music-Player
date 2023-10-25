@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-function MusicPlayerWidget() {
+function MusicPlayerWidget(props) {
+  const { playlist } = props;
   // use Audio constructor to create HTMLAudioElement
   const song_url =
     "https://p.scdn.co/mp3-preview/b4eb1d7db30834c8d536ad7b608b23fbc14b5b4b?cid=34a9e4e696a64f1fa9e86ae2c33b4604";
@@ -9,42 +10,62 @@ function MusicPlayerWidget() {
   const [audio, setAudio] = useState(null);
   const [playInLoop, setPlayInLoop] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const onSetPlaying = () => {
-    setIsPlaying(!isPlaying);
-  };
+  const [dataSong, setDataSong] = useState({ duration: 0, currentTime: 0 });
+  const [currentSong, setCurrentSong] = useState(0);
 
   // Load Audio File
   useEffect(() => {
     setAudio(new Audio(song_url));
   }, []);
 
+  const onSetPlaying = () => {
+    setIsPlaying(!isPlaying);
+  };
+
   // Play audio sound
-  const playSound = () => {
-    audio.play();
+  const playSound = (element) => {
+    // audio.play();
+    element.play();
   };
 
   // Pause audio sound
-  const pauseSound = () => {
-    audio.pause();
+  const pauseSound = (element) => {
+    // audio.pause();
+    element.pause();
   };
 
   // Stop audio sound
   const stopSound = () => {
-    audio.pause();
-    audio.currentTime = 0;
+    // audio.pause();
+    // audio.currentTime = 0;
   };
 
-  const onSetSound = () => {
+  const onSetSound = (e) => {
+    const element = document.getElementById(e);
+
     if (isPlaying) {
-      pauseSound();
+      pauseSound(element);
+      console.log("stop");
     } else {
-      playSound();
+      playSound(element);
+      console.log("play");
+    }
+
+    onSetPlaying();
+  };
+
+  const onTimeUpdated = (e) => {
+    const song = document.getElementById(e);
+    const duration = song.duration;
+    const ct = song.currentTime;
+
+    if (duration == ct) {
+      console.log("finishe playing");
     }
   };
 
-  const onEnded = () => {
-    console.log("finished playing");
+  const onEnded = (e) => {
+    const song = document.getElementById(e).ended;
   };
 
   return (
@@ -52,6 +73,23 @@ function MusicPlayerWidget() {
       <div className="music-player-component--widget">
         <div className="music-player-component--wrapper">
           <div className="music-player-component--left">
+            {/* Audio */}
+            <audio
+              id="song"
+              class="block w-full max-w-md mx-auto"
+              controls
+              style={{
+                position: "absolute",
+                left: "0",
+                top: "0",
+                opacity: "0.5",
+                width: "50px",
+              }}
+              onTimeUpdate={() => onTimeUpdated("song")}
+            >
+              <source src={song_url} type="audio/mpeg" />
+            </audio>
+
             <IconMediaPlayer />
 
             <div className="info">
@@ -62,8 +100,7 @@ function MusicPlayerWidget() {
             <button
               className="music-player-component--button"
               onClick={() => {
-                onSetPlaying();
-                onSetSound();
+                onSetSound("song");
               }}
             >
               <div className="left">
